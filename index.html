@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>PHP Error Reporting Bitmask Calculator</title>
+    <script src="http://code.jquery.com/jquery-1.4.4.min.js" type="text/javascript"></script>
+    <script type="application/x-javascript">
+    
+    $(document).ready(function() {
+        
+        $('#reporting').keydown(function(){
+            $('#bitmask_value').text('');
+        });
+        
+        $('#submit').click(function(){
+            var text_string = $('#reporting').val();
+            var replaced_string = '';
+            //alert(text_string);
+            
+            replaced_string = text_string.replace("E_ERROR", "1");
+            replaced_string = replaced_string.replace("E_WARNING", "2");
+            replaced_string = replaced_string.replace("E_PARSE", "4");
+            replaced_string = replaced_string.replace("E_NOTICE", "8");
+            replaced_string = replaced_string.replace("E_CORE_ERROR", "16");
+            replaced_string = replaced_string.replace("E_CORE_WARNING", "32");
+            replaced_string = replaced_string.replace("E_COMPILE_ERROR", "64");
+            replaced_string = replaced_string.replace("E_COMPILE_WARNING", "128");
+            replaced_string = replaced_string.replace("E_USER_ERROR", "256");
+            replaced_string = replaced_string.replace("E_USER_WARNING", "512");
+            replaced_string = replaced_string.replace("E_USER_NOTICE", "1024");
+            replaced_string = replaced_string.replace("E_STRICT", "2048");
+            replaced_string = replaced_string.replace("E_RECOVERABLE_ERROR", "4096");
+            replaced_string = replaced_string.replace("E_DEPRECATED", "8192");
+            replaced_string = replaced_string.replace("E_USER_DEPRECATED", "16384");
+            replaced_string = replaced_string.replace("E_ALL", "30719");
+            
+            // Sanitize user data
+            replaced_string = replaced_string.replace(/[^0-9^()| ]/g,'')            
+            
+            try {
+                var bitmasked_value = eval(replaced_string);
+            } catch(err){
+                var bitmasked_value = 'Could not Evaluate';
+            }
+            
+            
+            
+            $('#bitmask_value').text(bitmasked_value);
+
+        
+        });
+        
+    });
+    
+    </script>
+    
+    <style type="text/css">
+        
+        body {
+            background-color:#DEDEDE;
+            margin-left:60px;
+            margin-right:60px;
+        }
+        
+        h1 {
+            color:#303B3C;
+        }
+        
+        table {
+            background-color:#82A0A3;
+            border:1px solid #444D4E;
+            width:100%;
+        }
+        
+        #reporting {
+            border:1px solid #444D4E;
+            padding: 1em;
+        }
+        
+        
+        h1, table, #footer {
+            margin-bottom:10px;
+            text-align:center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #error_table td, th {
+            background:#82A0A3;
+        }
+        
+        #error_table th {
+            background:#444D4E;
+            color:#F0F5F6;
+        }
+        
+        #error_table {
+            background:#444D4E;
+        }
+
+
+        #bitmask_value {
+            font-size:200%;
+        }
+        
+    </style>
+    
+    
+</head>
+<body>
+    
+    <h1>PHP Error Reporting Bitmask Calculator</h1>
+    
+    <form method="get" action="#" onsubmit="return false;" autocomplete="off">
+        
+        <p>
+            When specifiying php error reporting in places such as .htaccess
+            files or apache conf files, it is neccessary to use bitmasked
+            values. This javascript calculator will evaluate a PHP error
+            constant string into it's equivliant bitmasked value.
+            
+            <a href="http://us.php.net/manual/en/function.error-reporting.php">More Info</a>
+            
+        </p>
+        
+        <table id="user_input">
+            <thead>
+                <tr>
+                    <th>
+                        <label for="php_version">PHP Version</label>
+                    </th>
+                    <th>
+                        <label for="reporting">Error Reporting String</label>
+                    </th>
+                    <th>Bitmask Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select name="php_version" id="php_version">
+                            <option>4.0</option>
+                            <option>5.2.x</option>
+                            <option selected="selected">5.3.x</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="reporting" id="reporting" maxlength="100" size="100" value="E_ALL ^ ( E_NOTICE | E_WARNING | E_DEPRECATED)" />
+                        <input type="submit" id="submit" name="submit" value="Calculate" />
+                    </td>
+                    <td id="bitmask_value">22517</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </form>    
+    
+    
+    <table id="error_table"> 
+  
+   <thead valign="middle"> 
+    <tr valign="middle"> 
+     <th>Value</th> 
+     <th>Constant</th> 
+     <th>Description</th> 
+     <th>Note</th> 
+    </tr> 
+ 
+   </thead> 
+ 
+   <tbody valign="middle" class="tbody"> 
+    <tr id="errorfunc.constants.errorlevels.e-error" valign="middle"> 
+     <td align="left">1</td> 
+     <td align="left"> 
+      <b><tt>E_ERROR</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Fatal run-time errors. These indicate errors that can not be
+      recovered from, such as a memory allocation problem.
+      Execution of the script is halted.
+     </td> 
+     <td class="empty">&nbsp;</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-warning" valign="middle"> 
+     <td align="left">2</td> 
+     <td align="left"> 
+      <b><tt>E_WARNING</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Run-time warnings (non-fatal errors). Execution of the script is not
+      halted.
+     </td> 
+     <td class="empty">&nbsp;</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-parse" valign="middle"> 
+     <td align="left">4</td> 
+     <td align="left"> 
+      <b><tt>E_PARSE</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Compile-time parse errors. Parse errors should only be generated by
+      the parser.
+     </td> 
+     <td class="empty">&nbsp;</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-notice" valign="middle"> 
+     <td align="left">8</td> 
+     <td align="left"> 
+      <b><tt>E_NOTICE</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Run-time notices. Indicate that the script encountered something that
+      could indicate an error, but could also happen in the normal course of
+      running a script.
+     </td> 
+     <td class="empty">&nbsp;</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-core-error" valign="middle"> 
+     <td align="left">16</td> 
+     <td align="left"> 
+      <b><tt>E_CORE_ERROR</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Fatal errors that occur during PHP&#039;s initial startup. This is like an
+      <b><tt>E_ERROR</tt></b>, except it is generated by the core of PHP.
+     </td> 
+     <td align="left">since PHP 4</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-core-warning" valign="middle"> 
+     <td align="left">32</td> 
+     <td align="left"> 
+      <b><tt>E_CORE_WARNING</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Warnings (non-fatal errors) that occur during PHP&#039;s initial startup.
+      This is like an <b><tt>E_WARNING</tt></b>, except it is generated
+      by the core of PHP.
+     </td> 
+     <td align="left">since PHP 4</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-compile-error" valign="middle"> 
+     <td align="left">64</td> 
+     <td align="left"> 
+      <b><tt>E_COMPILE_ERROR</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Fatal compile-time errors. This is like an <b><tt>E_ERROR</tt></b>,
+      except it is generated by the Zend Scripting Engine.
+     </td> 
+     <td align="left">since PHP 4</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-compile-warning" valign="middle"> 
+     <td align="left">128</td> 
+     <td align="left"> 
+      <b><tt>E_COMPILE_WARNING</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Compile-time warnings (non-fatal errors). This is like an
+      <b><tt>E_WARNING</tt></b>, except it is generated by the Zend
+      Scripting Engine.
+     </td> 
+     <td align="left">since PHP 4</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-user-error" valign="middle"> 
+     <td align="left">256</td> 
+     <td align="left"> 
+      <b><tt>E_USER_ERROR</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      User-generated error message. This is like an
+      <b><tt>E_ERROR</tt></b>, except it is generated in PHP code by
+      using the PHP function <span class="function"><a href="function.trigger-error.php" class="function">trigger_error()</a></span>.
+     </td> 
+     <td align="left">since PHP 4</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-user-warning" valign="middle"> 
+     <td align="left">512</td> 
+     <td align="left"> 
+      <b><tt>E_USER_WARNING</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      User-generated warning message. This is like an
+      <b><tt>E_WARNING</tt></b>, except it is generated in PHP code by
+      using the PHP function <span class="function"><a href="function.trigger-error.php" class="function">trigger_error()</a></span>.
+     </td> 
+     <td align="left">since PHP 4</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-user-notice" valign="middle"> 
+     <td align="left">1024</td> 
+     <td align="left"> 
+      <b><tt>E_USER_NOTICE</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      User-generated notice message. This is like an
+      <b><tt>E_NOTICE</tt></b>, except it is generated in PHP code by
+      using the PHP function <span class="function"><a href="function.trigger-error.php" class="function">trigger_error()</a></span>.
+     </td> 
+     <td align="left">since PHP 4</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-strict" valign="middle"> 
+     <td align="left">2048</td> 
+     <td align="left"> 
+      <b><tt>E_STRICT</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Enable to have PHP suggest changes
+      to your code which will ensure the best interoperability
+      and forward compatibility of your code.
+     </td> 
+     <td align="left">since PHP 5</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-recoverable-error" valign="middle"> 
+     <td align="left">4096</td> 
+     <td align="left"> 
+      <b><tt>E_RECOVERABLE_ERROR</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Catchable fatal error. It indicates that a probably dangerous error
+      occured, but did not leave the Engine in an unstable state. If the error
+      is not caught by a user defined handle (see also
+      <span class="function"><a href="function.set-error-handler.php" class="function">set_error_handler()</a></span>), the application aborts as it
+      was an <b><tt>E_ERROR</tt></b>.
+     </td> 
+     <td align="left">since PHP 5.2.0</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-deprecated-error" valign="middle"> 
+     <td align="left">8192</td> 
+     <td align="left"> 
+      <b><tt>E_DEPRECATED</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      Run-time notices. Enable this to receive warnings about code
+      that will not work in future versions.
+     </td> 
+     <td align="left">since PHP 5.3.0</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-user-deprecated" valign="middle"> 
+     <td align="left">16384</td> 
+     <td align="left"> 
+      <b><tt>E_USER_DEPRECATED</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      User-generated warning message. This is like an
+      <b><tt>E_DEPRECATED</tt></b>, except it is generated in PHP code by
+      using the PHP function <span class="function"><a href="function.trigger-error.php" class="function">trigger_error()</a></span>.
+     </td> 
+     <td align="left">since PHP 5.3.0</td> 
+    </tr> 
+ 
+ 
+    <tr id="errorfunc.constants.errorlevels.e-all" valign="middle"> 
+     <td align="left">30719</td> 
+     <td align="left"> 
+      <b><tt>E_ALL</tt></b> 
+      
+     </td> 
+     <td align="left"> 
+      All errors and warnings, as supported, except of level
+      <b><tt>E_STRICT</tt></b>.
+     </td> 
+     <td align="left"> 
+      
+      30719 in PHP 5.3.x,
+      6143 in PHP 5.2.x,
+      2047 previously
+     </td> 
+    </tr> 
+ 
+ 
+   </tbody> 
+  
+ </table>
+    
+<div id="footer">
+    Created by John Kramlich | <a href="http://www.johnkramlich.com">www.johnkramlich.com</a>
+</div>
+    
+</body>
+</html>
