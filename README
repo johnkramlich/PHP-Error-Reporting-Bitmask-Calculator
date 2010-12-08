@@ -1,0 +1,1 @@
+When specifying php error reporting in places such as .htaccess files or apache conf files, it is necessary to use bitmasked values. This javascript calculator will evaluate a PHP error constant string into it's equivalent bitmasked value.
